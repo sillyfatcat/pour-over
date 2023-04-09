@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body {
+  background-color: #F8D7DA;
+  /* a light pink pastel color */
+  color: #554D50;
+  /* a dark grayish purple color */
+  font-family: 'Courier New', Courier, monospace;
+}
