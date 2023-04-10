@@ -1,12 +1,28 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import logoBottom from './nobucoffeelogo.png';
+
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  align-self: flex-start;
-  max-width: 50em; 
+  max-width: 50em;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  margin: 0 auto;
 `;
 
 const InputContainer = styled.div`
@@ -62,6 +78,14 @@ const Recipe = styled.div`
   margin-top: 2rem;
 `;
 
+const FixedImage = styled.img`
+  position: fixed;
+  bottom: calc(5% - 2rem);
+  right: 0;
+  z-index: -1;
+  height: auto;
+`;
+
 interface CoffeeProfile {
   temperature: number;
   grindSize: number;
@@ -105,95 +129,98 @@ function App() {
   };
 
   return (
-    <Container>
-      <h1>Pour Over Coffee Adjustments</h1>
-      <InputContainer>
-        <TextDiv>
-          <Label htmlFor="coffeeName">Coffee Name:</Label>
-        </TextDiv>
-        <Input
-          id="coffeeName"
-          type="text"
-          value={coffeeName}
-          onChange={(e) => setCoffeeName(e.target.value)}
-        />
-      </InputContainer>
-      <InputContainer>
-        <TextDiv>
-          <Label htmlFor="temperature">Temperature:</Label>
-        </TextDiv>
+    <Wrapper>
+      <Container>
+        <h1>Pour Over Coffee Adjustments</h1>
+        <InputContainer>
+          <TextDiv>
+            <Label htmlFor="coffeeName">Coffee Name:</Label>
+          </TextDiv>
+          <Input
+            id="coffeeName"
+            type="text"
+            value={coffeeName}
+            onChange={(e) => setCoffeeName(e.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <TextDiv>
+            <Label htmlFor="temperature">Temperature:</Label>
+          </TextDiv>
 
-        <input
-          id="temperature"
-          type="range"
-          min="70"
-          max="100"
-          step="1"
-          value={temperature}
-          onChange={(e) => setTemperature(parseInt(e.target.value, 10))}
-        />
-        <span>{temperature}°C</span>
-      </InputContainer>
-      <InputContainer>
+          <input
+            id="temperature"
+            type="range"
+            min="70"
+            max="100"
+            step="1"
+            value={temperature}
+            onChange={(e) => setTemperature(parseInt(e.target.value, 10))}
+          />
+          <span>{temperature}°C</span>
+        </InputContainer>
+        <InputContainer>
+          <TextDiv>
+            <Label htmlFor="grindSize">Grind Size:</Label>
+          </TextDiv>
+          <input
+            id="grindSize"
+            type="range"
+            min="0"
+            max="30"
+            step="1"
+            value={grindSize}
+            onChange={(e) => setGrindSize(parseInt(e.target.value, 10))}
+          />
+          <span>{grindSize}</span>
+        </InputContainer>
+        <h3>Taste Feedback</h3>
+        <select value={taste} onChange={handleTasteChange}>
+          <option value="">--Select--</option>
+          <option value="good">Good</option>
+          <option value="bitter">Bitter</option>
+          <option value="sour">Sour</option>
+        </select>
+        <Result>
+          {suggestion && (
+            <>
+              <h4>Suggestion       </h4>
+              <p>{suggestion}</p>
+            </>
+          )}
+        </Result>
+        <Button onClick={saveProfile}>Save Profile</Button>
+        <h2>Saved Profiles</h2>
+        <ul>
+          {profiles.map((profile, index) => (
+            <li key={index}>
+              {profile.coffeeName && profile.coffeeName + ', '} Temperature: {profile.temperature}°C, Grind Size: {profile.grindSize}, Taste: {profile.taste}
+            </li>
+          ))}
+        </ul>
         <TextDiv>
-          <Label htmlFor="grindSize">Grind Size:</Label>
+          <Recipe>
+            <h2>Recipe</h2>
+            <p>
+              Here's the recipe we're following for our pour over:
+            </p>
+            <ol>
+              <li>Grind 15g of coffee beans.</li>
+              <li>Add 30g of water to the grounds, making sure to evenly saturate all the grounds.</li>
+              <li>Allow the coffee to bloom for 30 seconds.</li>
+              <li>Slowly pour an additional 120g of water over the coffee, pouring in a circular motion.</li>
+              <li>Finish with a total of 250g of water.</li>
+            </ol>
+          </Recipe>
         </TextDiv>
-        <input
-          id="grindSize"
-          type="range"
-          min="0"
-          max="30"
-          step="1"
-          value={grindSize}
-          onChange={(e) => setGrindSize(parseInt(e.target.value, 10))}
-        />
-        <span>{grindSize}</span>
-      </InputContainer>
-      <h3>Taste Feedback</h3>
-      <select value={taste} onChange={handleTasteChange}>
-        <option value="">--Select--</option>
-        <option value="good">Good</option>
-        <option value="bitter">Bitter</option>
-        <option value="sour">Sour</option>
-      </select>
-      <Result>
-        {suggestion && (
-          <>
-            <h4>Suggestion       </h4>
-            <p>{suggestion}</p>
-          </>
-        )}
-      </Result>
-      <Button onClick={saveProfile}>Save Profile</Button>
-      <h2>Saved Profiles</h2>
-      <ul>
-        {profiles.map((profile, index) => (
-          <li key={index}>
-            {profile.coffeeName && profile.coffeeName + ', '} Temperature: {profile.temperature}°C, Grind Size: {profile.grindSize}, Taste: {profile.taste}
-          </li>
-        ))}
-      </ul>
-      <TextDiv>
-        <Recipe>
-          <h2>Recipe</h2>
+        <Footer>
           <p>
-            Here's the recipe we're following for our pour over:
+            Like this app? You can support me by donating on <Link href="https://ko-fi.com/stupidfatcat" target="_blank">Ko-fi</Link>!
           </p>
-          <ol>
-            <li>Grind 15g of coffee beans.</li>
-            <li>Add 30g of water to the grounds, making sure to evenly saturate all the grounds.</li>
-            <li>Allow the coffee to bloom for 30 seconds.</li>
-            <li>Slowly pour an additional 120g of water over the coffee, pouring in a circular motion.</li>
-            <li>Finish with a total of 250g of water.</li>
-          </ol>
-        </Recipe>
-      </TextDiv>
-      <Footer>
-        <p>
-          Like this app? You can support me by donating on <Link href="https://ko-fi.com/stupidfatcat" target="_blank">Ko-fi</Link>!
-        </p>
-      </Footer>
-    </Container>
+        </Footer>
+        <FixedImage src={logoBottom} alt="Your image description" />
+      </Container>
+    </Wrapper>
   );
 }
 
