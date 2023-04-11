@@ -7,12 +7,14 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  min-height: 100%; // Added to ensure the wrapper covers the full viewport height
 `;
+
 
 const Container = styled.div`
   position: relative;
@@ -49,8 +51,21 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
+  width: 10rem; 
+  height: 3rem; 
+  border-radius: 0.5rem; 
+  border: none;
+  background-color: #F8D7DA; 
+  color: #554D50; 
+  font-weight: bold; 
+  cursor: pointer; 
   margin-top: 1rem;
+
+  &:hover {
+    background-color: #8bbbe4; // Slightly darker pastel blue color when hovering
+  }
 `;
+
 
 const Result = styled.div`
   margin-top: 1rem;
@@ -86,11 +101,27 @@ const FixedImage = styled.img`
   height: auto;
 `;
 
+const StyledSelect = styled.select`
+  background-color: #F8D7DA; 
+  color: #554D50; // White text color
+  font-weight: bold; // Bold font weight
+  padding: 0.5rem; // Padding around the text
+  border: none; // Remove default border
+  border-radius: 0.5rem; // Add rounded corners
+  cursor: pointer; // Cursor style
+
+  &:focus {
+    outline: none; // Remove default focus outline
+  }
+`;
+
+
 interface CoffeeProfile {
   temperature: number;
   grindSize: number;
   taste: string;
   coffeeName?: string;
+  suggestion: string;
 }
 
 function App() {
@@ -108,7 +139,7 @@ function App() {
   }, []);
 
   const saveProfile = () => {
-    const newProfile: CoffeeProfile = { temperature, grindSize, taste, coffeeName };
+    const newProfile: CoffeeProfile = { temperature, grindSize, taste, coffeeName, suggestion };
     const updatedProfiles = [...profiles, newProfile];
     setProfiles(updatedProfiles);
     localStorage.setItem('coffeeProfiles', JSON.stringify(updatedProfiles));
@@ -168,19 +199,19 @@ function App() {
             type="range"
             min="0"
             max="30"
-            step="1"
+            step="0.1"
             value={grindSize}
-            onChange={(e) => setGrindSize(parseInt(e.target.value, 10))}
+            onChange={(e) => setGrindSize(parseFloat(e.target.value))}
           />
           <span>{grindSize}</span>
         </InputContainer>
         <h3>Taste Feedback</h3>
-        <select value={taste} onChange={handleTasteChange}>
+        <StyledSelect value={taste} onChange={handleTasteChange}>
           <option value="">--Select--</option>
           <option value="good">Good</option>
           <option value="bitter">Bitter</option>
           <option value="sour">Sour</option>
-        </select>
+        </StyledSelect>
         <Result>
           {suggestion && (
             <>
@@ -194,7 +225,14 @@ function App() {
         <ul>
           {profiles.map((profile, index) => (
             <li key={index}>
-              {profile.coffeeName && profile.coffeeName + ', '} Temperature: {profile.temperature}°C, Grind Size: {profile.grindSize}, Taste: {profile.taste}
+              {profile.coffeeName && profile.coffeeName + ', '}
+              Temperature: {profile.temperature}°C, Grind Size: {profile.grindSize}, Taste: {profile.taste}
+              {profile.suggestion && ( // Check if the suggestion exists and display it
+                <>
+                  <br />
+                  Suggestion: {profile.suggestion}
+                </>
+              )}
             </li>
           ))}
         </ul>
