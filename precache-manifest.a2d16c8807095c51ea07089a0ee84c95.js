@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "565f42a3ab62cab960fc",
+    "revision": "90668e5d0d3dd16d89f9",
     "url": "/pour-over/static/css/main.20f9161d.chunk.css"
   },
   {
-    "revision": "565f42a3ab62cab960fc",
-    "url": "/pour-over/static/js/main.565f42a3.chunk.js"
+    "revision": "90668e5d0d3dd16d89f9",
+    "url": "/pour-over/static/js/main.90668e5d.chunk.js"
   },
   {
     "revision": "205849d973eaa941ab0f",
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/pour-over/static/media/nobucoffeelogo.11ec1cfb.png"
   },
   {
-    "revision": "baa060a481d733c692d82542c0d8f495",
+    "revision": "ec5b480c2eab5eedb68fc73b469c2ced",
     "url": "/pour-over/index.html"
   }
 ];
