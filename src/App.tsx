@@ -55,7 +55,7 @@ const Button = styled.button`
   height: 3rem; 
   border-radius: 0.5rem; 
   border: none;
-  background-color: #F8D7DA; 
+  background-color: #95d4d6; 
   color: #554D50; 
   font-weight: bold; 
   cursor: pointer; 
@@ -102,8 +102,8 @@ const FixedImage = styled.img`
 `;
 
 const StyledSelect = styled.select`
-  background-color: #F8D7DA; 
-  color: #554D50; // White text color
+  background-color: #95d4d6; 
+  color: #554D50; 
   font-weight: bold; // Bold font weight
   padding: 0.5rem; // Padding around the text
   border: none; // Remove default border
